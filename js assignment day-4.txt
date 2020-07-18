@@ -1,0 +1,249 @@
+
+          JS ASSIGNMENT DAY-4
+
+1.Finding the multiple of 3 and 5
+Write a program that prints the numbers from 1 to 100. But for multiples of three print “Fizz” instead of the number and for the multiples of five print “Buzz”. For numbers which are multiples of both three and five print “FizzBuzz”.
+
+Is this the best way of doing this?
+
+def fizz_buzz(num):
+    if num%3==0 and num%5==0:
+        return 'FizzBuzz'
+
+    elif num % 3 == 0:
+        return 'Fizz'
+
+    elif num % 5==0:
+        return 'Buzz'
+    else:
+        return num
+
+for n in range(1,100):
+    print(fizz_buzz(n))
+for i in range(1,101): print("Fizz"*(i%3==0) + "Buzz"*(i%5==0) or i) – syb0rg Jun 15 '16 at 14:04
+"MultiYou should use the if __name__ == "__main__": module in your answer.
+
+def fizz_buzz(num):
+    if num%3==0 and num%5==0:
+        return 'FizzBuzz'
+
+    elif num % 3 == 0:
+        return 'Fizz'
+
+    elif num % 5==0:
+        return 'Buzz'
+    else:
+        return num
+
+if __name__ == "__main__":
+
+    for n in range(1,100):
+        print(fizz_buzz(n))
+Which makes your code reusable for later. Eg you can call functions from your file in other programs. Your else clause at the end of the code is useless. You could have written
+
+    elif num % 5==0:
+        return 'Buzz'
+    return num
+Alternatives
+One problem with your code is that you have multiple exit points. Now this is not something to sweat too hard over, and it is not a goal to always try have a single exit. However it can be easier to debug a code with fewer exit points. This is of course much more relevant in longer and more complex code. Though it is a good thing to always have in mind. One way to do this is to define a new variable string
+
+def fizz_buzz(num):
+    string = ''
+    if num%3==0 and num%5==0:
+        string = 'FizzBuzz'
+
+    elif num % 3 == 0:
+        string = 'Fizz'
+
+    elif num % 5==0:
+        string = 'Buzz'
+
+    if string:
+       return string
+    return num
+The code now only has two exit points however it can still be improved. One key point is that if a number is divisible by 3 and 5, it is divisible by 15. So we can gradually build the string, like shown below
+
+def fizz_buzz(num):
+    string = ''
+
+    if num % 3 == 0:
+        string += 'Fizz'
+
+    if num % 5==0:
+        string += 'Buzz'
+
+    if string:
+       return string
+    return num
+As a last point the return statement could be written using a terniary conditional operator
+
+return string if string else n
+Which combines the two exit points into a single one. To sumarize
+
+def fizz_buzz(num):
+    string = ''
+    if num % 3==0: string +='Fizz' 
+    if num % 5==0: string +='Buzz'
+    return string if string else num
+
+if __name__ == "__main__":
+
+    for n in range(1, 100):
+        print(fizz_buzz(n))ple of both 3 and 5" = "Multiple of 15". 
+
+
+2.I need help building a two player turn based simple dice game in Javascript
+0
+
+
+1
+I relatively new to programming so forgive me for my code. The goal is to create a simple dice game in which there are two players in Javascript. My issue is that I can seem to figure out how to correctly add the sum of the two dice rolls to the score for each player when the dice is rolled.
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Andrews awesome dice game</title>
+        <script src="diceGame.js"></script>
+        <link rel="stylesheet" type="text/css" href="diceGame.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+</head>
+<body>
+    <h1 id="gameTitle" class="col-lg-12">The Dice Game</h1>
+    <div id="die1" class="dice">0</div>
+    <div id="die2" class="dice">0</div>
+    <div class="col-lg-12 playerScore">
+        <h2>PLAYER 1:</h2>
+        <h2 id="player1Score"></h2>
+        <h2>PLAYER 2:</h2>
+        <h2 id="player2Score"></h2>
+    <button onclick="rollDice()" id="rollBtn">Roll Dice</button>
+    <h2 id="status" style="clear:left;"></h2>
+</body>
+</html>
+Heres the Javascipt:
+
+//global variables
+    //Players
+    var player1 = prompt("what is your name, player 1?");
+    var player2 = prompt("What is your name, player 2?");
+    var rollButton = document.getElementById("rollBtn");
+    var win = 50;
+
+
+
+function rollDice(){
+
+var die1 = document.getElementById("die1");
+var die2 = document.getElementById("die2");
+var status = document.getElementById("status");
+var p1Score = document.getElementById("player1Score");
+var p2Score = document.getElementById("player2Score");
+var score1 = 0;
+var score2 = 0;
+var moves = 0;
+
+var d1 = Math.floor(Math.random() * 6) + 1;
+var d2 = Math.floor(Math.random() * 6) + 1;
+var moves = 1;
+
+var diceTotal = d1 + d2;
+die1.innerHTML = d1;
+die2.innerHTML = d2;
+status.innerHTML = "You rolled "+diceTotal+".";
+
+if (moves == 1) {
+    if (d1 == 1 && d2 == 1) { // if both dice equal 1, set the score to equal 0
+        diceTotal = 0;
+        moves++;
+        score1 = score1 + diceTotal;
+        p1Score.innerHTML += score1;
+        status.innerHTML += " Your score has been reset to zero";
+    } else {
+        if(d1 == d2) {        //if both dice are the same, double the players score
+            diceTotal = diceTotal*2;
+            moves++;
+            score1 = score1 + diceTotal;
+            p1Score.innerHTML += score1;
+            status.innerHTML += " Lucky! your total has been doubled to "+(diceTotal)+".";
+        } else{
+            moves++;
+            score1 = score1 + diceTotal;
+            p1Score.innerHTML += score1;
+            status.innerHTML += " Your Turn "+player2+".";
+            console.log(score1);
+        }
+    }
+} else {
+    if (d1 == 1 && d2 == 1) { // if both dice equal 1, set the score to equal 0
+        diceTotal = 0;
+        moves++;
+        score2 = score2 + diceTotal;
+        p2Score.innerHTML += score2;
+        status.innerHTML += player2+" score has been reset to zero";
+    } else {
+        if(d1 == d2) {        //if both dice are the same, double the players score
+            diceTotal = diceTotal*2;
+            moves++;
+            score2 = score2 + diceTotal;
+            p2Score.innerHTML += score2;
+            status.innerHTML += " Lucky! your total has been doubled to "+(diceTotal)+".";
+        } else{
+            moves++;
+            score2 = score2 + diceTotal;
+            p2Score.innerHTML += score2;
+            status.innerHTML += " Your Turn "+player1+"."; 
+        }
+    }
+}
+}
+
+
+3.Creating A Client-Side Javascript Shopping Cart    
+In this series of articles, we’ll cover in depth a practical implementation of session storage by creating a complete e-commerce shopping cart with the sessionStorage object and jQuery.
+Session Storage: A Quick Reminder
+We use sessions to store data and share such data across several pages. Usually, a user would pick a product, and we’d save the product’s name along with the chosen quantity and price.
+sessionStorage.setItem( name, value ) method:
+
+
+sessionStorage.setItem( "total", 120 );
+In this case, the key named total now contains the value 120 as a string, although we’ve used an integer in our call to the .setItem() method. This value will be available until the session expires, unless we use sessionStorage.removeItem( “total” ) to remove the named key or we call sessionStorage.clear() to entirely remove all keys and values from the session storage.     
+
+var total = sessionStorage.getItem( "total" );
+console.log( total ); // '120', a string
+Copy
+We can also update its value by using sessionStorage.setItem() again with a new value:
+
+
+var total = parseInt( sessionStorage.getItem( "total" ) );
+var quantity = 2;
+var updatedTotal = total * quantity;
+sessionStorage.setItem( "total", updatedTotal ); // '240', a string
+var cart = {
+    item: "Product 1",
+    price: 35.50,
+    qty: 2
+};
+var jsonStr = JSON.stringify( cart );
+sessionStorage.setItem( "cart", jsonStr );
+// now the cart is {"item":"Product 1","price":35.50,"qty":2}
+var cartValue = sessionStorage.getItem( "cart" );
+var cartObj = JSON.parse( cartValue );
+// original object
+
+
+INDEX.HTML
+<div class="product-description" data-name="Wine #1" data-price="5">
+    <h3 class="product-name">Wine #1</h3>
+        <p class="product-price">&euro; 5</p>
+        <form class="add-to-cart" action="cart.html" method="post">
+            <div>
+                <label for="qty-1">Quantity</label>
+                <input type="text" name="qty-1" id="qty-1" class="qty" value="1" />
+            </div>
+            <p><input type="submit" value="Add to cart" class="btn" /></p>
+        </form>
+</div>
